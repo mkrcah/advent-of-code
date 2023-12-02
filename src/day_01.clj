@@ -30,7 +30,7 @@
     (reduce + 0)))
 
 (def input-lines
-  (->> "/Users/marcel/projects/personal-finance/aoc/day-1.txt"
+  (->> "input/day-01.txt"
        slurp
        str/split-lines))
 

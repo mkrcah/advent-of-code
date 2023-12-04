@@ -1,38 +1,27 @@
-(ns day_04
+(ns day_04_xf
   " Day 4: Scratchcards https://adventofcode.com/2023/day/4 "
   (:require [clojure.set :as set]
             [clojure.string :as str]
             [clojure.math :refer [pow]]))
 
-(defn cards [lns]
-  (->> lns
-       (map #(str/split % #":"))
-       (map second)
-       (map #(str/split % #"\|"))
-       (map (partial map #(re-seq #"\d+" %)))))
+(defn points [matches] (when (not (zero? matches)) (pow 2 (dec matches))))
 
-(defn count-matches [card]
-  (->> card
-    (map (partial set))
-    (apply set/intersection)
-    count))
-
-(defn points [matches]
-  (when (< 0 matches) (pow 2 (dec matches))))
-
-(defn part1 [lines]
-  (->> lines
-       cards
-       (map count-matches)
-       (keep points)
-       (reduce +)))
+; my first transducer
+(def input-to-points-xf
+  (comp (map (fn [s] (str/split s #":")))
+        (map second)
+        (map (fn [s] (str/split s #"\|")))
+        (map (partial map (comp set (partial re-seq #"\d+"))))
+        (map (partial apply set/intersection))
+        (map count)
+        (keep points)))
 
 (let [input (->> "input/day-04.txt" slurp str/split-lines)]
-  {:part1 (part1 input)})
+  {:part1 (transduce input-to-points-xf + input)})
 
 
 (comment
-  (part1 example) ;13
+  (transduce input-to-points-xf + example)
   (def example
     ["Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53"
      "Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19"

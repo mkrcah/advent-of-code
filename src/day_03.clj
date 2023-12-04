@@ -1,4 +1,4 @@
-(ns dev_03
+(ns day_03
   "
   Vocab:
   - engine schematic: visual repr of an engine, consisting of numbers, symbols and dots

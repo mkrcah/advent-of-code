@@ -1,4 +1,4 @@
-(ns day-02
+(ns aoc_2023_02_gear-ratios
   "Key learnings:
   - put dev fiddles to a dev-tree, as mentioned in Functional Design in Clojure
   - merge-with; to merge maps with an aggregation function

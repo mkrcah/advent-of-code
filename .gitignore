@@ -1,6 +1,7 @@
-input/
+./input/
 *.iml
 .clj-kondo/
 *.cpcache
 .idea/
 .nrepl-port
+input

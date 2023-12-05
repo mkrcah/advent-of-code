@@ -6,22 +6,22 @@
 
 (defn points [matches] (when (not (zero? matches)) (pow 2 (dec matches))))
 
-; my first transducer
-(def input-to-points-xf
+; exploring transducers
+(def lines-to-counts
   (comp (map (fn [s] (str/split s #":")))
         (map second)
         (map (fn [s] (str/split s #"\|")))
         (map (partial map (comp set (partial re-seq #"\d+"))))
         (map (partial apply set/intersection))
-        (map count)
-        (keep points)))
+        (map count)))
 
 (let [input (->> "input/day-04.txt" slurp str/split-lines)]
-  {:part1 (transduce input-to-points-xf + input)})
+  {:part1 (transduce (comp lines-to-counts (keep points)) + input)})
 
 
 (comment
-  (transduce input-to-points-xf + example)
+  (transduce lines-to-counts conj example)
+  (transduce lines-to-counts + example)
   (def example
     ["Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53"
      "Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19"
